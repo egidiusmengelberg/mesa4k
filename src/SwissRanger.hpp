@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <fstream>
 
 // OpenCV
 #include "opencv2/core/core.hpp"
@@ -34,6 +35,7 @@ int setModulationFrequency(ModulationFrq freq);
 int setAmplitudeThreshold(int val);
 
 int renderFrame();
+int savePoints(string filename);
 
 string getDeviceString();
 

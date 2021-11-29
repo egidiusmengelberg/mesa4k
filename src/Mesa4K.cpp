@@ -13,15 +13,15 @@ int main(int argc, char *argv[])
   // add ctrl-c interupt handler
   signal(SIGINT, intHandler);
 
-  // check if ip address argument exists
-  if (argc < 2)
+  if (argc < 3)
   {
-    printf("Please specify the ip address of the camera\n");
+    printf("Please specify the mode and ip address; check docs for help\n");
     exit(EXIT_FAILURE);
     return 0;
   }
 
-  ip_addr = argv[1];
+  mode = argv[1];
+  ip_addr = argv[2];
 
   // connect to camera and set options
   connect(ip_addr);
@@ -33,18 +33,37 @@ int main(int argc, char *argv[])
 
   printf("Device has type: %s\n", getDeviceString().c_str());
 
-  // Main Loop
-  while (!stop)
+  if (mode == "gui")
   {
-    // render Frame
-    res = renderFrame();
-    if (res < 1)
+    printf("Running gui mode\n");
+    // Main Loop
+    while (!stop)
     {
-      printf("Error during image acquisition\n");
-      disconnect();
-      exit(EXIT_FAILURE);
-      break;
+      // render Frame
+      res = renderFrame();
+      if (res < 1)
+      {
+        printf("Error during image acquisition\n");
+        disconnect();
+        exit(EXIT_FAILURE);
+        break;
+      }
     }
+  }
+
+  if (mode == "pcl")
+  {
+    printf("Running pcl mode\n");
+    if (argc < 4)
+    {
+      printf("Please specify the mode and ip address and filename; check docs for help\n");
+      exit(EXIT_FAILURE);
+      return 0;
+    }
+
+    string filename = argv[3];
+
+    savePoints(filename);
   }
 
   //disconnect from camera

@@ -6,7 +6,16 @@ This repository hold an example program to interface with the SwissRanger ToF Ca
 
 ## The data
 
-This program will open a connection to the camera and show you the following images:
+This program has 2 modes of operation:
+- pcl
+- gui
+
+### pcl
+pcl mode will open a connection to the camera and save a text tile with points to a specified location.
+This points file can be opened in [MeshLab](https://www.meshlab.net/)
+
+### gui
+gui mode will open a connection to the camera and show you the following video streams:
 
 - Amplitude image (greyscale)
 - Depth image
@@ -70,11 +79,19 @@ make
 
 Run the program
 
-please specify the ip address of the camera as an argument
+please specify the mode, ip address of the camera and if you chose pcl the filename as an argument
 
+### pcl mode:
 ```bash
-./Mesa4K 192.168.1.2
+./Mesa4K pcl 192.168.1.2 ../../points.txt
 ```
+
+### gui mode:
+```bash
+./Mesa4K gui 192.168.1.2
+```
+
+> press ctrl-c in the terminal to exit the program
 
 ## Questions
 

@@ -1,6 +1,9 @@
 #include "SwissRanger.hpp"
+#include <iostream>
 
 CMesaDevice *cam;
+
+float *buffer_, *xp_, *yp_, *zp_;
 
 // connect to camera with specified ip address
 int connect(string addr)
@@ -175,4 +178,51 @@ string getDeviceString()
   SR_GetDeviceString(cam, buf, 100);
   string deviceString(buf);
   return deviceString;
+}
+
+//save points to file
+int savePoints(string filename)
+{
+  int res;
+
+  res = SR_Acquire(cam);
+
+  if (res < 0)
+  {
+    printf("Error acquiring image\n");
+    return 0;
+  }
+
+  size_t buffer_size = SR_ROWS * SR_COLS * 3 * sizeof(float);
+  buffer_ = (float *)malloc(buffer_size);
+  memset(buffer_, 0xaf, buffer_size);
+
+  xp_ = buffer_;
+  yp_ = &xp_[SR_ROWS * SR_COLS];
+  zp_ = &yp_[SR_ROWS * SR_COLS];
+
+  res = SR_CoordTrfFlt(cam, xp_, yp_, zp_, sizeof(float), sizeof(float), sizeof(float));
+  if (res < 0)
+  {
+    printf("Error calculating points\n");
+    return 0;
+  }
+
+  std::ofstream file(filename);
+
+  for (int i = 0; i < SR_COLS * SR_ROWS; i++)
+  {
+    char buff[50];
+    sprintf(buff, "%.6f %.6f %.6f\n", xp_[i], yp_[i], zp_[i]);
+    file << buff;
+  }
+
+  file.close();
+
+  if (buffer_)
+    free(buffer_);
+
+  buffer_ = NULL;
+
+  return 1;
 }
