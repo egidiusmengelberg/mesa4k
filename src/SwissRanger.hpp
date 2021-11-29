@@ -35,4 +35,6 @@ int setAmplitudeThreshold(int val);
 
 int viewImage();
 
+string getDeviceString();
+
 #endif

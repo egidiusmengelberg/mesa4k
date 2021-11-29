@@ -159,3 +159,11 @@ int viewImage()
 
   return 1;
 }
+
+string getDeviceString()
+{
+  char buf[100];
+  SR_GetDeviceString(cam, buf, 100);
+  string deviceString(buf);
+  return deviceString;
+}

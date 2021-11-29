@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
   setModulationFrequency(MF_15_5MHz);
   setAmplitudeThreshold(20);
 
+  printf("Device has type: %s\n", getDeviceString().c_str());
+
   while (!stop)
   {
     res = viewImage();
