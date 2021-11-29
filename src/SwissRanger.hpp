@@ -33,7 +33,7 @@ int setIntegrationTime(int val);
 int setModulationFrequency(ModulationFrq freq);
 int setAmplitudeThreshold(int val);
 
-int viewImage();
+int renderFrame();
 
 string getDeviceString();
 

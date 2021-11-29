@@ -10,8 +10,10 @@ int main(int argc, char *argv[])
 
   printf("Starting Mesa4K\n");
 
+  // add ctrl-c interupt handler
   signal(SIGINT, intHandler);
 
+  // check if ip address argument exists
   if (argc < 2)
   {
     printf("Please specify the ip address of the camera\n");
@@ -21,6 +23,7 @@ int main(int argc, char *argv[])
 
   ip_addr = argv[1];
 
+  // connect to camera and set options
   connect(ip_addr);
   setMode(SR_MODE);
   setAutoExposure(true);
@@ -30,9 +33,11 @@ int main(int argc, char *argv[])
 
   printf("Device has type: %s\n", getDeviceString().c_str());
 
+  // Main Loop
   while (!stop)
   {
-    res = viewImage();
+    // render Frame
+    res = renderFrame();
     if (res < 1)
     {
       printf("Error during image acquisition\n");
@@ -42,6 +47,7 @@ int main(int argc, char *argv[])
     }
   }
 
+  //disconnect from camera
   disconnect();
 
   return 0;

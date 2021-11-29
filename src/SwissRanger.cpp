@@ -2,6 +2,7 @@
 
 CMesaDevice *cam;
 
+// connect to camera with specified ip address
 int connect(string addr)
 {
   int res;
@@ -17,6 +18,7 @@ int connect(string addr)
   return 1;
 }
 
+// disconnect from camera
 int disconnect()
 {
   int res;
@@ -32,6 +34,7 @@ int disconnect()
   return 1;
 }
 
+// set camera mode
 int setMode(int mode)
 {
   int res;
@@ -47,6 +50,7 @@ int setMode(int mode)
   return 1;
 }
 
+// set auto exposure
 int setAutoExposure(bool val)
 {
   int res;
@@ -78,6 +82,7 @@ int setAutoExposure(bool val)
   return 1;
 }
 
+// set integration time
 int setIntegrationTime(int time)
 {
   int res;
@@ -93,6 +98,7 @@ int setIntegrationTime(int time)
   return 1;
 }
 
+// set amplitude threshold
 int setAmplitudeThreshold(int val)
 {
   int res;
@@ -108,6 +114,7 @@ int setAmplitudeThreshold(int val)
   return 1;
 }
 
+// set modulation frequency
 int setModulationFrequency(ModulationFrq freq)
 {
   int res;
@@ -123,7 +130,8 @@ int setModulationFrequency(ModulationFrq freq)
   return 1;
 }
 
-int viewImage()
+//render camera frame
+int renderFrame()
 {
   SR_SetMode(cam, AM_COR_FIX_PTRN | AM_CONV_GRAY | AM_DENOISE_ANF | AM_CONF_MAP);
   int res = SR_Acquire(cam);
@@ -160,6 +168,7 @@ int viewImage()
   return 1;
 }
 
+// get device string
 string getDeviceString()
 {
   char buf[100];
